@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Client;
+
 
 import java.io.*;
 import java.net.Socket;
@@ -24,11 +24,14 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+import net.sf.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javafx.beans.value.*;
-import org.json.simple.JSONObject;
 
 
 public class ClientGUI {
@@ -53,11 +56,16 @@ public class ClientGUI {
         }
 
     }
+    
     public void clientGUI() {
         try
         {
-            writer.write("username"+"\t");
-            writer.write(username+"\n");
+            //writer.write("username"+"\t");
+        		//writer.write(username+"\n");
+        		Map<String, String> json = new HashMap<>();
+        		json.put("username", username);
+        		JSONObject object = JSONObject.fromObject(json);
+        		writer.write(object.toString()+"\n");
             writer.flush();
             Stage clientstage = new Stage();
             clientstage.setTitle("Scrabble Game Lobby");
@@ -154,7 +162,7 @@ public class ClientGUI {
                 @Override
                 public void handle(ActionEvent event) {
                     clientstage.close();
-                    new GameGUI().GameGUI();
+                    //new GameGUI().GameGUI();
                 }});
 
             Invite.setOnAction(new EventHandler<ActionEvent>() {
@@ -198,8 +206,13 @@ public class ClientGUI {
                 @Override
                 public void handle(WindowEvent event) {
                     try {
-                        writer.write("EXIT" + "\n");
-                        writer.flush();
+                        //writer.write("EXIT" + "\n");
+                        //writer.flush();
+	                		Map<String, String> json = new HashMap<>();
+	                		json.put("exit", "EXIT");
+	                		JSONObject object = JSONObject.fromObject(json);
+	                		writer.write(object.toString()+"\n");
+	                    writer.flush();
                     }
                     catch (IOException e)
                     {

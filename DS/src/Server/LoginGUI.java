@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Server;
+
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -110,6 +110,9 @@ public class LoginGUI extends Application{
                 alert.initOwner(owner);
                 alert.show();
             }
-
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
 

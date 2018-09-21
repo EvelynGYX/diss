@@ -1,18 +1,20 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Server;
+
 
 import javafx.scene.control.TextArea;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ThreadManager extends Thread{
     private TextArea processes;
     private ServerSocket listeningSocket;
     private TextArea currentuser;
+    private static int clientNum = 0;
 
     public ThreadManager(ServerSocket serverSocket, TextArea processes, TextArea currentuser){
         this.processes = processes;
@@ -22,7 +24,6 @@ public class ThreadManager extends Thread{
 
     @Override
     public void run() {
-        int clientNum = 0;
         try{
             while (true) {
                 //Accept an incoming client connection request
@@ -36,10 +37,19 @@ public class ThreadManager extends Thread{
                 ClientConnection clientConnection = new ClientConnection(clientSocket, clientNum,processes,currentuser);
                 clientConnection.setName("Thread" + clientNum);
                 clientConnection.start();
-
+                
                 //Update the server state to reflect the new connected client
                 ServerState.getInstance().clientConnected(clientConnection);
-                currentuser.setText(String.valueOf(ServerState.getInstance().getConnectedClients().size())+" client"+"\n");
+                //currentuser.setText(String.valueOf(ServerState.getInstance().getConnectedClients().size())+" client"+"\n");
+                //currentuser.setText(String.valueOf(ServerState.getInstance().getUserList().size())+" client"+"\n");
+                
+                /*
+                System.out.println(ServerState.getInstance().getUserList() + " list");
+                String str = null;
+                for(String user : ServerState.getInstance().getUserList())
+                		str = str + user + "\n";
+                //currentuser.setText(str + "\n");
+                 */
             }
         } catch (IOException e)
         {
@@ -55,4 +65,6 @@ public class ThreadManager extends Thread{
         }
 
     }
+    
+    
 }

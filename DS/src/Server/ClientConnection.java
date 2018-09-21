@@ -1,9 +1,10 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Server;
+
 
 import javafx.scene.control.TextArea;
+import net.sf.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,9 +12,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ClientConnection extends Thread {
-
+	private String username;
+	private static String userListStr = "";
     private Socket clientSocket;
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -28,15 +32,40 @@ public class ClientConnection extends Thread {
             writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(), "UTF-8"));
             this.clientNum = clientNum;
             this.process = process;
-            this.currentuser=currentusers;
+            this.currentuser = currentusers;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public String parseJsonValue(String json, String key) {
+		String message = json.replaceAll("\n", "");
+		JSONObject jsonObject = JSONObject.fromObject(message); 
+		Map object = (Map) jsonObject;
+		return (String)object.get(key);
+    }
+    
+	public String parseJsonKey(String jsonStr) {
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		Map object = (Map) jsonObject;
+		if(object.containsKey("username"))
+			return "username";
+		else if(object.containsKey("exit"))
+			return "exit";
+		return null;
+	}
+	
+	public void printUsers() {
+		if(ServerState.getInstance().getUserList().size() > 0) {
+			userListStr = "";
+			for(String user : ServerState.getInstance().getUserList()) 
+				userListStr += (user + "\n");
+		}
+		currentuser.setText(userListStr);
+	}
+	
     @Override
     public void run() {
-
         try {
 //            Dictionary word =new Dictionary();
             process.appendText(Thread.currentThread().getName()
@@ -44,7 +73,14 @@ public class ClientConnection extends Thread {
 
             String clientMsg;
             while ((clientMsg = reader.readLine()) != null) {
-                if (!(clientMsg.equals("CONNECTED or NOT")||clientMsg.equals("EXIT")))
+            		String key = parseJsonKey(clientMsg);
+            		clientMsg = parseJsonValue(clientMsg, key);
+            		if(key.equals("username")) {
+            			this.username = clientMsg;           			
+            			ServerState.getInstance().addUser(this.username);
+            			printUsers();
+            		}
+            		else if (!(clientMsg.equals("CONNECTED or NOT")||clientMsg.equals("EXIT")))
                 {
                     process.appendText(Thread.currentThread().getName()
                             + " - Message from client " + clientNum + " received: " + clientMsg+"\n");
@@ -54,6 +90,8 @@ public class ClientConnection extends Thread {
                 {
                     process.appendText(Thread.currentThread().getName()
                             + " - Message from client " + clientNum + " received: " + clientMsg+"\n");
+                    ServerState.getInstance().removeUser(this.username);
+                    printUsers();
                     break;
                 }
             }
