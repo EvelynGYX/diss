@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Client;
+
 
 import java.io.IOException;
 import java.net.Socket;
@@ -82,6 +82,11 @@ public class GUI extends Application {
 
                 if(passwordField.getText().isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please enter the port number");
+                    return;
+                }
+                
+                if(usernameField.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please enter the username");
                     return;
                 }
                 try{

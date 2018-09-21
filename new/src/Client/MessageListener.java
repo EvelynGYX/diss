@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Client;
+
 
 import java.io.BufferedReader;
 import java.net.SocketException;

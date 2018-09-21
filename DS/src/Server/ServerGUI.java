@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Server;
+
 
 import java.net.ServerSocket;
 import javafx.event.EventHandler;

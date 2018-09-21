@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-package Client;
+
 
 import javafx.scene.control.TextArea;
 import java.net.*;
