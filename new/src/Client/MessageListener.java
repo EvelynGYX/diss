@@ -17,10 +17,6 @@ import net.sf.json.JSONObject;
 public class MessageListener extends Thread {
 	private BufferedWriter writer;
     private BufferedReader reader;
-
-    public MessageListener() {
-    	
-    }
     
     public MessageListener(BufferedReader reader, BufferedWriter writer) {
         this.reader = reader;
