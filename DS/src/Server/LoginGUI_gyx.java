@@ -20,7 +20,7 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class LoginGUI extends Application{
+public class LoginGUI_gyx extends Application{
     @Override
     public void start(Stage primaryStage)
     {

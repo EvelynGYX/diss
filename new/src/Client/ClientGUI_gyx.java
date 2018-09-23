@@ -34,13 +34,13 @@ import java.util.Optional;
 import javafx.beans.value.*;
 
 
-public class ClientGUI {
+public class ClientGUI_gyx {
     private Socket socket;
     private BufferedWriter writer;
     private BufferedReader reader;
     private String username;
 
-    public ClientGUI(Socket socket,String username)
+    public ClientGUI_gyx(Socket socket,String username)
     {
         try
         {
@@ -142,7 +142,7 @@ public class ClientGUI {
             clientstage.setScene(clientscene);
             clientstage.show();
             
-            MessageListener ml = new MessageListener(reader, writer);
+            MessageListener_gyx ml = new MessageListener_gyx(reader, writer);
             ml.start();
 
 
