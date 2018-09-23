@@ -18,6 +18,10 @@ public class MessageListener_gyx extends Thread {
 	private BufferedWriter writer;
     private BufferedReader reader;
 
+    public MessageListener_gyx() {
+    	
+    }
+    
     public MessageListener_gyx(BufferedReader reader, BufferedWriter writer) {
         this.reader = reader;
         this.writer = writer;
