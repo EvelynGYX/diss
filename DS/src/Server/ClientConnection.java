@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClientConnection_gyx extends Thread {
+public class ClientConnection extends Thread {
 	private String username;
 	private static String userListStr = "";
     private Socket clientSocket;
@@ -27,7 +27,7 @@ public class ClientConnection_gyx extends Thread {
     private TextArea process;
     private TextArea currentuser;
 
-    public ClientConnection_gyx(Socket clientSocket, int clientNum, TextArea process, TextArea currentusers) {
+    public ClientConnection(Socket clientSocket, int clientNum, TextArea process, TextArea currentusers) {
         try {
             this.clientSocket = clientSocket;
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "UTF-8"));
@@ -78,7 +78,7 @@ public class ClientConnection_gyx extends Thread {
 	}
 	
 	public void broadcast(String key, String value) {
-		for(ClientConnection_gyx client: ServerState.getInstance().getConnectedClients()) {
+		for(ClientConnection client: ServerState.getInstance().getConnectedClients()) {
 			String broadcast = encapsulateJson(key,value) + "\n";
 			try {				
 				client.getWriter().write(broadcast);

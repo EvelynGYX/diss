@@ -10,7 +10,7 @@ import java.util.List;
 public class ServerState {
 
     private static ServerState instance;
-    private List<ClientConnection_gyx> connectedClients;
+    private List<ClientConnection> connectedClients;
     private static ArrayList<String> userList;
 
     private ServerState() {
@@ -25,15 +25,15 @@ public class ServerState {
         return instance;
     }
 
-    public synchronized void clientConnected(ClientConnection_gyx client) {
+    public synchronized void clientConnected(ClientConnection client) {
         connectedClients.add(client);
     }
 
-    public synchronized void clientDisconnected(ClientConnection_gyx client) {
+    public synchronized void clientDisconnected(ClientConnection client) {
         connectedClients.remove(client);
     }
 
-    public synchronized List<ClientConnection_gyx> getConnectedClients() {
+    public synchronized List<ClientConnection> getConnectedClients() {
         return connectedClients;
     }
     

@@ -62,7 +62,7 @@ public class ServerGUI {
 
         processes.appendText(Thread.currentThread().getName() +
                 " - Server listening on port "+passwordFiled.getText()+" for a connection"+"\n");
-        ThreadManager_gyx threadManager = new ThreadManager_gyx(listeningSocket,processes,currentUser);
+        ThreadManager threadManager = new ThreadManager(listeningSocket,processes,currentUser);
         threadManager.start();
 
         scene = new Scene(gridPane, 650, 450);

@@ -95,7 +95,7 @@ public class GUI extends Application {
                     Socket socket = new Socket(hostname, portnnumber);
                     String username = usernameField.getText().trim();
                     primaryStage.close();
-                    new ClientGUI_gyx(socket,username).clientGUI();
+                    new ClientGUI(socket,username).clientGUI();
                 }catch (UnknownHostException e)
                 {
                     showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Host Name Error!", "Please enter the host name again");

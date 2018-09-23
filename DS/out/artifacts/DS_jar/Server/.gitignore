@@ -10,3 +10,9 @@
 /LoginGUI_gyx.class
 /ThreadManager_gyx.class
 /MessageListener_gyx.class
+/ClientConnection.class
+/ThreadManager.class
+/LoginGUI$1.class
+/LoginGUI.class
+/ClientGUI.class
+/MessageListener.class

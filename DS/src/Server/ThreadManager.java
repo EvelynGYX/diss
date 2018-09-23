@@ -10,13 +10,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ThreadManager_gyx extends Thread{
+public class ThreadManager extends Thread{
     private TextArea processes;
     private ServerSocket listeningSocket;
     private TextArea currentuser;
     private static int clientNum = 0;
 
-    public ThreadManager_gyx(ServerSocket serverSocket, TextArea processes, TextArea currentuser){
+    public ThreadManager(ServerSocket serverSocket, TextArea processes, TextArea currentuser){
         this.processes = processes;
         this.listeningSocket = serverSocket;
         this.currentuser=currentuser;
@@ -34,7 +34,7 @@ public class ThreadManager_gyx extends Thread{
 
                 //Create a client connection to listen for and process all the messages
                 //sent by the client
-                ClientConnection_gyx clientConnection = new ClientConnection_gyx(clientSocket, clientNum,processes,currentuser);
+                ClientConnection clientConnection = new ClientConnection(clientSocket, clientNum,processes,currentuser);
                 clientConnection.setName("Thread" + clientNum);
                 clientConnection.start();
                 

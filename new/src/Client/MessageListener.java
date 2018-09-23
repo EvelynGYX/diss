@@ -14,15 +14,15 @@ import javafx.scene.control.TextArea;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-public class MessageListener_gyx extends Thread {
+public class MessageListener extends Thread {
 	private BufferedWriter writer;
     private BufferedReader reader;
 
-    public MessageListener_gyx() {
+    public MessageListener() {
     	
     }
     
-    public MessageListener_gyx(BufferedReader reader, BufferedWriter writer) {
+    public MessageListener(BufferedReader reader, BufferedWriter writer) {
         this.reader = reader;
         this.writer = writer;
     }
