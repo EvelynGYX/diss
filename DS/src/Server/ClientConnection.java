@@ -4,6 +4,7 @@
 
 
 import javafx.scene.control.TextArea;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ClientConnection extends Thread {
@@ -64,6 +66,31 @@ public class ClientConnection extends Thread {
 		currentuser.setText(userListStr);
 	}
 	
+	public String encapsulateJson(String key, String value) {
+		Map<String, String> json = new HashMap<>();
+		json.put(key, value);
+		JSONObject object = JSONObject.fromObject(json);
+		return object.toString();
+	}
+	
+	public String encapsulateJsonArray(ArrayList<String> arrayList) {
+		return JSONArray.fromObject(arrayList).toString();
+	}
+	
+	public void broadcast(String key, String value) {
+		for(ClientConnection client: ServerState.getInstance().getConnectedClients()) {
+			String broadcast = encapsulateJson(key,value) + "\n";
+			try {				
+				client.getWriter().write(broadcast);
+				client.getWriter().flush();
+				System.out.println(client.getWriter() + " " + broadcast);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
     @Override
     public void run() {
         try {
@@ -78,7 +105,10 @@ public class ClientConnection extends Thread {
             		if(key.equals("username")) {
             			this.username = clientMsg;           			
             			ServerState.getInstance().addUser(this.username);
-            			printUsers();
+            			printUsers();            	
+            			String boardcast = encapsulateJsonArray(ServerState.getInstance().getUserList());
+            			System.out.println(boardcast);
+            			broadcast("update_userList", boardcast);
             		}
             		else if (!(clientMsg.equals("CONNECTED or NOT")||clientMsg.equals("EXIT")))
                 {
@@ -145,6 +175,22 @@ public class ClientConnection extends Thread {
             e.printStackTrace();
         }
     }
+
+	public BufferedReader getReader() {
+		return reader;
+	}
+
+	public void setReader(BufferedReader reader) {
+		this.reader = reader;
+	}
+
+	public BufferedWriter getWriter() {
+		return writer;
+	}
+
+	public void setWriter(BufferedWriter writer) {
+		this.writer = writer;
+	}
 
 }
 

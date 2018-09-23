@@ -114,10 +114,7 @@ public class ClientGUI {
             gamePlayer.setTextFill(Color.web("#F47F42"));
             GP.add(gamePlayer,1,1);
 
-
             ArrayList<String> online = new ArrayList<>();
-            online.add("Clinet1 Evan");
-            online.add("Clinet2 Happy");
             ListView<String> onlineplayer=new ListView<>(FXCollections.observableArrayList(online));
             onlineplayer.setCellFactory(TextFieldListCell.forListView());
             onlineplayer.setEditable(false);
@@ -129,9 +126,6 @@ public class ClientGUI {
             TextArea gameplayer = new TextArea();
             gameplayer.setWrapText(true);
             GP.add(gameplayer,1,2,1, 5);
-
-
-
 
             Button Invite = new Button("Invite All");
             Invite.setPrefHeight(30);
@@ -147,8 +141,9 @@ public class ClientGUI {
             clientscene=new Scene(GP,700,600);
             clientstage.setScene(clientscene);
             clientstage.show();
-//            MessageListener ml = new MessageListener(reader, msg);
-//            ml.start();
+            
+            MessageListener ml = new MessageListener(reader, writer);
+            ml.start();
 
 
             //Use a scanner to read input from the console
