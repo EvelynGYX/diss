@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-
+package Client;
 
 import java.io.BufferedReader;
 import java.net.SocketException;
@@ -12,7 +12,7 @@ public class MessageListener extends Thread {
     private BufferedReader reader;
     private TextArea msg;
 
-    public MessageListener(BufferedReader reader, TextArea msg) {
+    public MessageListener(BufferedReader reader) {
         this.reader = reader;
         this.msg = msg;
         }

@@ -2,7 +2,7 @@
 //669026
 //DS project1
 
-
+package Client;
 import java.io.*;
 import java.net.Socket;
 
@@ -18,6 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -62,46 +65,21 @@ public class ClientGUI {
         {
             //writer.write("username"+"\t");
         		//writer.write(username+"\n");
-        		Map<String, String> json = new HashMap<>();
-        		json.put("username", username);
-        		JSONObject object = JSONObject.fromObject(json);
-        		writer.write(object.toString()+"\n");
+        	Map<String, String> json = new HashMap<>();
+        	json.put("username", username);
+        	JSONObject object = JSONObject.fromObject(json);
+        	writer.write(object.toString()+"\n");
             writer.flush();
             Stage clientstage = new Stage();
             clientstage.setTitle("Scrabble Game Lobby");
             Scene clientscene;
             GridPane GP = createClientGridPane();
             Label headerLabel = new Label("Welcome! "+username);
-            headerLabel.setFont(Font.font("Lucida Handwriting", FontWeight.BOLD, 20));
+            headerLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
             GridPane.setHalignment(headerLabel, HPos.CENTER);
-            GridPane.setMargin(headerLabel, new Insets(0, 0,20,0));
+            GridPane.setMargin(headerLabel, new Insets(0, 40,20,40));
             GP.add(headerLabel,0,0,2,1);
 
-//            Button ADD = new Button();
-//            Button QUERY = new Button();
-//            Button REMOVE = new Button();
-//            TextField query = new TextField();
-//            TextField addkey = new TextField();
-//            addkey.setMinWidth(270);
-//            TextField addvalue = new TextField();
-//            addvalue.setMaxWidth(270);
-//            TextField remove = new TextField();
-//            TextArea msg = new TextArea();
-//            msg.setWrapText(true);
-//            msg.setPrefRowCount(6);
-//
-//            ADD.setText("ADD");
-//            QUERY.setText("Query");
-//            REMOVE.setText("Remove");
-//
-//            GP.add(ADD,2,2,1,1);
-//            GP.add(QUERY, 2,1,1,1);
-//            GP.add(REMOVE, 2,3,1,1);
-//            GP.add(query, 0,1,2,1);
-//            GP.add(addkey, 0,2,1,1);
-//            GP.add(addvalue,1,2,1,1);
-//            GP.add(remove, 0,3,2,1);
-//            GP.add(msg, 0,4,2,1);
             Label onlinePlayer = new Label("Online Player");
             onlinePlayer.setFont(Font.font("Arial", 25));
             onlinePlayer.setAlignment(Pos.CENTER);
@@ -130,25 +108,29 @@ public class ClientGUI {
             gameplayer.setWrapText(true);
             GP.add(gameplayer,1,2,1, 5);
 
-
-
-
             Button Invite = new Button("Invite All");
-            Invite.setPrefHeight(30);
-            Invite.setDefaultButton(true);
-            Invite.setPrefWidth(70);
             Button Game = new Button("Start Game");
-            Game.setPrefHeight(30);
-            Game.setDefaultButton(true);
-            Game.setPrefWidth(70);
-            GP.add(Game,1,8);
-            GP.add(Invite, 0,8);
 
-            clientscene=new Scene(GP,700,600);
+//            GP.add(Game,1,8);
+//            GP.add(Invite, 0,8);
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(0, 10, 0, 10));
+            hbox.setSpacing(150);
+            HBox.setHgrow(Invite, Priority.ALWAYS);
+            HBox.setHgrow(Game, Priority.ALWAYS);
+            Game.setPrefWidth(120);
+            Invite.setPrefWidth(90);
+
+            hbox.getChildren().addAll(Invite,Game);
+
+
+            GP.add(hbox,0,7,2,1);
+
+            clientscene=new Scene(GP,600,600);
             clientstage.setScene(clientscene);
             clientstage.show();
-//            MessageListener ml = new MessageListener(reader, msg);
-//            ml.start();
+            MessageListener ml = new MessageListener(reader);
+            ml.start();
 
 
             //Use a scanner to read input from the console
@@ -162,14 +144,14 @@ public class ClientGUI {
                 @Override
                 public void handle(ActionEvent event) {
                     clientstage.close();
-                    //new GameGUI().GameGUI();
+                    new GameGUI().GameGUI();
                 }});
 
             Invite.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     try{
-                        writer.write("INVITEALL"+"\n");
+                        writer.write("inviteAll"+"\n");
                         writer.flush();
                     }catch(Exception e)
                     {
@@ -187,8 +169,14 @@ public class ClientGUI {
                             alert.setContentText("Do you want to invite this player?");
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK){
-                                writer.write(newValue+"\n");
+
+                                Map<String, String> json1 = new HashMap<>();
+                                json1.put("invite", newValue);
+                                JSONObject object1 = JSONObject.fromObject(json1);
+                                writer.write(object1.toString()+"\n");
                                 writer.flush();
+//                                writer.write(newValue+"\n");
+////                                writer.flush();
                             } else {
                                 // ... user chose CANCEL or closed the dialog
                             }
@@ -212,7 +200,7 @@ public class ClientGUI {
 	                		json.put("exit", "EXIT");
 	                		JSONObject object = JSONObject.fromObject(json);
 	                		writer.write(object.toString()+"\n");
-	                    writer.flush();
+	                        writer.flush();
                     }
                     catch (IOException e)
                     {

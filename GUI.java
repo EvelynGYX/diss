@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-
+package Client;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
 
 public class GUI extends Application {
 
