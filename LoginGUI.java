@@ -1,8 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-
-
+package Server;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

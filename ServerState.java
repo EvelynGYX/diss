@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-
+package Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ public class ServerState {
     private static ServerState instance;
     private List<ClientConnection> connectedClients;
     private static ArrayList<String> userList;
-    private List<ClientConnection> connectedPlayers;
 
     private ServerState() {
         connectedClients = new ArrayList<>();
@@ -36,17 +35,6 @@ public class ServerState {
 
     public synchronized List<ClientConnection> getConnectedClients() {
         return connectedClients;
-    }
-    public synchronized void playerConnected(ClientConnection client) {
-	connectedPlayers.add(client);
-    }
-
-    public synchronized void playerDisconnected(ClientConnection client) {
-	connectedPlayers.remove(client);
-    }
-
-    public synchronized List<ClientConnection> getConnectedPlayers() {
-        return connectedPlayers;
     }
     
     public synchronized void addUser(String username) {

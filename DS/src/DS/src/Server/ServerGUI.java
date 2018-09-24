@@ -1,7 +1,7 @@
 //Yizhou Wang
 //669026
 //DS project1
-
+package Server;
 
 import java.net.ServerSocket;
 import javafx.event.EventHandler;
@@ -54,15 +54,18 @@ public class ServerGUI {
         gridPane.add(Process, 1, 1);
         TextArea currentUser = new TextArea();
         currentUser.setWrapText(true); //
-        gridPane.add(currentUser, 0, 2, 1, 4);
+        gridPane.add(currentUser, 0, 3, 1, 3);
 
         TextArea processes = new TextArea();
         processes.setWrapText(true);
         gridPane.add(processes, 1, 2, 1, 4);
+        TextField currentUser1 = new TextField(String.valueOf(ServerState.getInstance().getConnectedClients().size())+" client"+"\n");
+        currentUser1.setAlignment(Pos.CENTER);
+        gridPane.add(currentUser1, 0, 2, 1, 1);
 
         processes.appendText(Thread.currentThread().getName() +
                 " - Server listening on port "+passwordFiled.getText()+" for a connection"+"\n");
-        ThreadManager threadManager = new ThreadManager(listeningSocket,processes,currentUser);
+        ThreadManager threadManager = new ThreadManager(listeningSocket,processes,currentUser,currentUser1);
         threadManager.start();
 
         scene = new Scene(gridPane, 650, 450);
